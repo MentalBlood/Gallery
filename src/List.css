@@ -26,6 +26,8 @@
 }
 
 .element {
+    padding: 2vmin;
+
     flex-grow: 1;
     background: white;
     color: black;
@@ -36,6 +38,6 @@
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }

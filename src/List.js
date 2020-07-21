@@ -20,12 +20,14 @@ class List extends Component {
     fetchData() {
         console.log('fetchElements()');
         const elementsUrl = this.state.elementsUrl;
+        const getElementAdditionalStyle = this.state.getElementAdditionalStyle;
         fetch(elementsUrl)
             .then(response => response.json())
             .then(json => this.setState(state => {
                         const elementsDict = {};
                         json.forEach(element => elementsDict[element.id] = {
                             element: element,
+                            additionalStyles: getElementAdditionalStyle ? getElementAdditionalStyle(element) : {},
                             resources: {}
                         });
                         return {elements: elementsDict};
@@ -53,7 +55,6 @@ class List extends Component {
                     .then(postProcessing)
                     .then(resource => this.setState(state => {
                                 state.elements[elementId].resources[name] = resource;
-                                console.log(resource);
                                 return {elements: state.elements}
                             }
                         )
@@ -85,12 +86,12 @@ class List extends Component {
                     elements !== undefined
                     ?
                     Object.values(elements).map(
-                        (element, elementIndex) =>
-                        <div className="elementCell" key={elementIndex}>
-                            <div className={elementClasses} onClick={event => onElementClick(element.element.id)}>
-                                {this.state.getElementInnerHTML(element.element, element.resources)}
+                        (element, elementIndex) => 
+                            <div className="elementCell" key={elementIndex}>
+                                <div className={elementClasses} onClick={event => onElementClick(element.element.id)}>
+                                    {this.state.getElementInnerHTML(element.element, element.resources)}
+                                </div>
                             </div>
-                        </div>
                     )
                     : null
                 }

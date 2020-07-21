@@ -13,6 +13,7 @@ class App extends Component {
 
         this.openAuthor = this.openAuthor.bind(this);
         this.openAlbum = this.openAlbum.bind(this);
+        this.goBack = this.goBack.bind(this);
     }
 
     openAuthor(authorId) {
@@ -31,7 +32,7 @@ class App extends Component {
         });
     }
 
-    getCurrentScreen() {
+    getCurrentScreenHTML() {
         const currentScreen = this.state.currentScreen;
         switch(currentScreen) {
             case 'authors':
@@ -47,9 +48,11 @@ class App extends Component {
                 return <List listAdditionalClasses={["albums"]}
                             elementAdditionalClasses={["album"]}
                             getElementInnerHTML={
-                                album =>
+                                (album, resources) =>
                                 <div className="albumInfo">
-                                    <div className="albumName">{album.title}</div>
+                                    <img src={resources.cover}></img>
+                                    <div className="albumTitle">{album.title}</div>
+                                    <div className="amountOfPhoto">{resources.amountOfPhoto}</div>
                                 </div>
                             }
                             elementsUrl={
@@ -60,12 +63,12 @@ class App extends Component {
                                 element => ({
                                     cover: {
                                         url: "https://jsonplaceholder.typicode.com/albums/" +
-                                        + element.id + "/photos/",
+                                            + element.id + "/photos/",
                                         postProcessing: json => json[0].thumbnailUrl
                                     },
                                     amountOfPhoto: {
                                         url: "https://jsonplaceholder.typicode.com/albums/" +
-                                        + element.id + "/photos/",
+                                            + element.id + "/photos/",
                                         postProcessing: json => json.length
                                     }
                                 })
@@ -76,26 +79,57 @@ class App extends Component {
                 return <List listAdditionalClasses={["photos"]}
                             elementAdditionalClasses={["photo"]}
                             getElementInnerHTML={
-                                photo => <div className="photoName">{photo.title}</div>
+                                (photo, resources) =>
+                                <div className="photoInfo">
+                                    <img src={resources.thumbnail}></img>
+                                    <div className="photoTitle">{photo.title}</div>
+                                </div>
                             }
                             elementsUrl={
                                 "https://jsonplaceholder.typicode.com/albums/"
                                 + this.state.currentAlbumId + "/photos"
                             }
-                            onElementClick={null}
+                            getElementResources={
+                                element => ({
+                                    thumbnail: {
+                                        url: "https://jsonplaceholder.typicode.com/photos/"
+                                            + element.id,
+                                        postProcessing: json => json.thumbnailUrl
+                                    }
+                                })
+                            }
+                            onElementClick={() => {}}
                             key={currentScreen}></List>;
             default:
                 return null;
         };
     }
 
+    goBack() {
+        const currentScreen = this.state.currentScreen;
+        const newCurrentScreen = {
+            'albums': 'authors',
+            'photos': 'albums'
+        }[currentScreen]
+        this.setState({currentScreen: newCurrentScreen});
+    }
+
     render() {
+        const currentScreen = this.state.currentScreen;
         return (
             <div className="app">
-                <div className="appHeader"></div>
+                <div className="appHeader">
+                    {
+                        this.state.currentScreen === "authors" ?
+                        null
+                        :
+                        <button className="backButton"
+                            onClick={this.goBack}>Back</button>
+                    }
+                </div>
                 <div className="appMain">
                     {
-                        this.getCurrentScreen()
+                        this.getCurrentScreenHTML()
                     }
                 </div>
             </div>
