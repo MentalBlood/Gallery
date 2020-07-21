@@ -1,35 +1,92 @@
 import React, {Component} from 'react';
 import './App.css';
-import Authors from './Authors.js';
-import Albums from './Albums.js';
+import List from './List.js';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentScreen: 'authors',
-            currentAuthorId: undefined
+            currentAuthorId: undefined,
+            currentAlbumId: undefined
         }
 
         this.openAuthor = this.openAuthor.bind(this);
-        this.getCurrentScreenComponent = this.getCurrentScreenComponent.bind(this);
+        this.openAlbum = this.openAlbum.bind(this);
     }
 
     openAuthor(authorId) {
+        console.log('authorId is', authorId);
         this.setState({
             currentScreen: 'albums',
             currentAuthorId: authorId
         });
     }
 
-    getCurrentScreenComponent() {
+    openAlbum(albumId) {
+        console.log('albumId is', albumId);
+        this.setState({
+            currentScreen: 'photos',
+            currentAlbumId: albumId
+        });
+    }
+
+    getCurrentScreen() {
         const currentScreen = this.state.currentScreen;
         switch(currentScreen) {
             case 'authors':
-                return <Authors onAuthorClick={this.openAuthor}></Authors>;
+                return <List listAdditionalClasses={["authors"]}
+                            elementAdditionalClasses={["author"]}
+                            getElementInnerHTML={
+                                author => <div className="authorName">{author.name}</div>
+                            }
+                            elementsUrl="https://jsonplaceholder.typicode.com/users"
+                            onElementClick={this.openAuthor}
+                            key={currentScreen}></List>;
             case 'albums':
-                return <Albums></Albums>;
-        }
+                return <List listAdditionalClasses={["albums"]}
+                            elementAdditionalClasses={["album"]}
+                            getElementInnerHTML={
+                                album =>
+                                <div className="albumInfo">
+                                    <div className="albumName">{album.title}</div>
+                                </div>
+                            }
+                            elementsUrl={
+                                "https://jsonplaceholder.typicode.com/users/"
+                                + this.state.currentAuthorId + "/albums"
+                            }
+                            getElementResources={
+                                element => ({
+                                    cover: {
+                                        url: "https://jsonplaceholder.typicode.com/albums/" +
+                                        + element.id + "/photos/",
+                                        postProcessing: json => json[0].thumbnailUrl
+                                    },
+                                    amountOfPhoto: {
+                                        url: "https://jsonplaceholder.typicode.com/albums/" +
+                                        + element.id + "/photos/",
+                                        postProcessing: json => json.length
+                                    }
+                                })
+                            }
+                            onElementClick={this.openAlbum}
+                            key={currentScreen}></List>;
+            case 'photos':
+                return <List listAdditionalClasses={["photos"]}
+                            elementAdditionalClasses={["photo"]}
+                            getElementInnerHTML={
+                                photo => <div className="photoName">{photo.title}</div>
+                            }
+                            elementsUrl={
+                                "https://jsonplaceholder.typicode.com/albums/"
+                                + this.state.currentAlbumId + "/photos"
+                            }
+                            onElementClick={null}
+                            key={currentScreen}></List>;
+            default:
+                return null;
+        };
     }
 
     render() {
@@ -38,7 +95,7 @@ class App extends Component {
                 <div className="appHeader"></div>
                 <div className="appMain">
                     {
-                        this.getCurrentScreenComponent()
+                        this.getCurrentScreen()
                     }
                 </div>
             </div>

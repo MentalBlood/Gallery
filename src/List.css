@@ -1,4 +1,4 @@
-.authors {
+.list {
     background-color: gray;
 
     display: -webkit-box;
@@ -10,7 +10,7 @@
     flex-wrap: wrap;
 }
 
-.authorCell {
+.elementCell {
     flex: 22vmin 0;
     display: flex;
     justify-content: center;
@@ -19,13 +19,13 @@
     padding: 1.5vmin;
 }
 
-.authorCell:before {
+.elementCell:before {
     content: "";
     display: table;
     padding-top: 100%;
 }
 
-.author {
+.element {
     flex-grow: 1;
     background: white;
     color: black;
@@ -38,9 +38,4 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.authorName {
-    width: 80%;
-    text-align: center;
 }
