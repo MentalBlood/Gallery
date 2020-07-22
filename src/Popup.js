@@ -6,22 +6,55 @@ class Popup extends Component {
         super(props);
         this.state = {
             photos: props.photos,
-            currentPhotoId: props.currentPhotoId
+            currentPhotoId: props.currentPhotoId,
+            closeFunction: props.closeFunction
         }
-        console.log(this.state);
+
+        this.previousPhoto = this.previousPhoto.bind(this);
+        this.nextPhoto = this.nextPhoto.bind(this);
+    }
+
+    previousPhoto() {
+        const currentPhotoId = this.state.currentPhotoId;
+        const previousPhotoId = currentPhotoId - 1;
+        const photos = this.state.photos;
+        if (photos[previousPhotoId] === undefined) {
+            const lastPhotoId = Math.max(...Object.keys(photos));
+            this.setState({currentPhotoId: lastPhotoId});
+        }
+        else
+            this.setState({currentPhotoId: previousPhotoId})
+    }
+
+    nextPhoto() {
+        const currentPhotoId = this.state.currentPhotoId;
+        const nextPhotoId = currentPhotoId + 1;
+        const photos = this.state.photos;
+        if (photos[nextPhotoId] === undefined) {
+            const firstPhotoId = Math.min(...Object.keys(photos));
+            this.setState({currentPhotoId: firstPhotoId});
+        }
+        else
+            this.setState({currentPhotoId: nextPhotoId})
     }
 
     render() {
         const currentPhotoId = this.state.currentPhotoId;
         const photos = this.state.photos;
         const currentPhotoSrc = photos[currentPhotoId].url;
+        const closeFunction = this.state.closeFunction;
         return (
             <div className="popup">
-                <div className="popupOverlay"></div>
+                <div className="popupOverlay"
+                    onClick={closeFunction}></div>
                 <div className="popupWindow">
-                    <div className="previousButton"></div>
-                    <img src={currentPhotoSrc} className="currentPhoto"></img>
-                    <div className="nextButton"></div>
+                    <div className="previousButton"
+                        onClick={this.previousPhoto}></div>
+                    <div style={{
+                            backgroundImage: "url(" + currentPhotoSrc + ")"
+                        }} className="currentPhoto"></div>
+                    <div className="nextButton"
+                        onClick={this.nextPhoto}></div>
                 </div>
             </div>
         );

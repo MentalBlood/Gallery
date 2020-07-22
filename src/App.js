@@ -20,6 +20,8 @@ class App extends Component {
         this.openAuthor = this.openAuthor.bind(this);
         this.openAlbum = this.openAlbum.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.openPopup = this.openPopup.bind(this);
+        this.closePopup = this.closePopup.bind(this);
     }
 
     openAuthor(authorId) {
@@ -163,7 +165,8 @@ class App extends Component {
                     {
                         popup.show ?
                         <Popup photos={popup.photos}
-                            currentPhotoId={popup.currentPhotoId}></Popup>
+                            currentPhotoId={popup.currentPhotoId}
+                            closeFunction={this.closePopup}></Popup>
                         :
                         null
                     }

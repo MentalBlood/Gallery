@@ -14,12 +14,11 @@
 .popupWindow {
     position: absolute;
     width: 80vw;
-    height: 80vh;
-    left: 8vw;
+    left: 10vw;
     top: 8vh;
     background-color: rgba(255, 255, 255, 0.8);
 
-    padding: 2vh 2vw;
+    padding: 2vh 0;
 
     display: flex;
     justify-content: space-between;
@@ -30,6 +29,8 @@
     width: 5vmin;
     height: 80vh;
     background-color: rgba(255, 255, 255, 0.8);
+
+    margin: 0 2vw;
 
     background-image: url('./images/previous.svg');
     background-repeat: no-repeat;
@@ -42,6 +43,10 @@
 }
 
 .currentPhoto {
-    max-width: 80vw;
-    max-height: 80vh;
+    width: 80vw;
+    height: 80vh;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }

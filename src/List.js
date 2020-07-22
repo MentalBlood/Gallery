@@ -15,6 +15,22 @@ class List extends Component {
         };
 
         this.fetchData = this.fetchData.bind(this);
+        this.setStateIfMounted = this.setStateIfMounted.bind(this);
+    }
+
+    componentDidMount() {
+        this.mounted = true;
+        if (this.state.elementsList === undefined)
+            this.fetchData();
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
+    setStateIfMounted(...args) {
+        if (this.mounted)
+            this.setState(...args);
     }
 
     fetchData() {
@@ -23,7 +39,7 @@ class List extends Component {
         const getElementAdditionalStyle = this.state.getElementAdditionalStyle;
         fetch(elementsUrl)
             .then(response => response.json())
-            .then(json => this.setState(state => {
+            .then(json => this.setStateIfMounted(state => {
                         const elementsDict = {};
                         json.forEach(element => elementsDict[element.id] = {
                             element: element,
@@ -32,7 +48,7 @@ class List extends Component {
                         });
                         return {elements: elementsDict};
                     },
-                    () => {console.log('setState finished'); this.fetchElementsResources()}
+                    this.fetchElementsResources
                 )
             );
     }
@@ -53,7 +69,7 @@ class List extends Component {
                 fetch(url)
                     .then(response => response.json())
                     .then(postProcessing)
-                    .then(resource => this.setState(state => {
+                    .then(resource => this.setStateIfMounted(state => {
                                 state.elements[elementId].resources[name] = resource;
                                 return {elements: state.elements}
                             }
@@ -61,11 +77,6 @@ class List extends Component {
                     )
             })
         });
-    }
-
-    componentDidMount() {
-        if (this.state.elementsList === undefined)
-            this.fetchData();
     }
 
     addClasses(baseClass, additionalClasses) {
