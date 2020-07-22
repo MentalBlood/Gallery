@@ -88,7 +88,15 @@ class List extends Component {
                     Object.values(elements).map(
                         (element, elementIndex) => 
                             <div className="elementCell" key={elementIndex}>
-                                <div className={elementClasses} onClick={event => onElementClick(element.element.id)}>
+                                <div className={elementClasses} onClick={
+                                        event => {
+                                            const elementsWithoutResourcesDict = {};
+                                            Object.values(elements).forEach(
+                                                value => elementsWithoutResourcesDict[value.element.id] = value.element
+                                            );
+                                            onElementClick(element.element.id, elementsWithoutResourcesDict);
+                                        }
+                                    }>
                                     {this.state.getElementInnerHTML(element.element, element.resources)}
                                 </div>
                             </div>

@@ -26,11 +26,15 @@
 }
 
 .element {
+    position: relative;
+
     padding: 2vmin;
 
     flex-grow: 1;
     background: white;
     color: black;
+
+    border-radius: 1vmin;
 
     display: -webkit-box;
     display: -moz-box;

@@ -1,0 +1,47 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.popupOverlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.popupWindow {
+    position: absolute;
+    width: 80vw;
+    height: 80vh;
+    left: 8vw;
+    top: 8vh;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    padding: 2vh 2vw;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.previousButton,
+.nextButton {
+    width: 5vmin;
+    height: 80vh;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    background-image: url('./images/previous.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: containt;
+}
+
+.nextButton {
+    transform: rotate(0.5turn);
+}
+
+.currentPhoto {
+    max-width: 80vw;
+    max-height: 80vh;
+}

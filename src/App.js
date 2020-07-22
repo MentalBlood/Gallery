@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import List from './List.js';
+import Popup from './Popup.js';
 
 class App extends Component {
     constructor(props) {
@@ -8,7 +9,12 @@ class App extends Component {
         this.state = {
             currentScreen: 'authors',
             currentAuthorId: undefined,
-            currentAlbumId: undefined
+            currentAlbumId: undefined,
+            popup: {
+                show: false,
+                photos: undefined,
+                currentPhotoId: undefined
+            }
         }
 
         this.openAuthor = this.openAuthor.bind(this);
@@ -32,6 +38,26 @@ class App extends Component {
         });
     }
 
+    openPopup(currentPhotoId, photos) {
+        this.setState({
+            popup: {
+                show: true,
+                photos: photos,
+                currentPhotoId: currentPhotoId
+            }
+        });
+    }
+
+    closePopup() {
+        this.setState({
+            popup: {
+                show: false,
+                photos: undefined,
+                currentPhotoId: undefined
+            }
+        });
+    }
+
     getCurrentScreenHTML() {
         const currentScreen = this.state.currentScreen;
         switch(currentScreen) {
@@ -39,7 +65,7 @@ class App extends Component {
                 return <List listAdditionalClasses={["authors"]}
                             elementAdditionalClasses={["author"]}
                             getElementInnerHTML={
-                                author => <div className="authorName">{author.name}</div>
+                                author => <div className="title authorName">{author.name}</div>
                             }
                             elementsUrl="https://jsonplaceholder.typicode.com/users"
                             onElementClick={this.openAuthor}
@@ -50,9 +76,11 @@ class App extends Component {
                             getElementInnerHTML={
                                 (album, resources) =>
                                 <div className="albumInfo">
-                                    <img src={resources.cover}></img>
-                                    <div className="albumTitle">{album.title}</div>
-                                    <div className="amountOfPhoto">{resources.amountOfPhoto}</div>
+                                    <div className="albumCoverContainer">
+                                        <img className="albumCover" src={resources.cover}></img>
+                                        <div className="amountOfPhoto">{resources.amountOfPhoto}</div>
+                                    </div>
+                                    <div className="title albumTitle">{album.title}</div>
                                 </div>
                             }
                             elementsUrl={
@@ -81,8 +109,10 @@ class App extends Component {
                             getElementInnerHTML={
                                 (photo, resources) =>
                                 <div className="photoInfo">
-                                    <img src={resources.thumbnail}></img>
-                                    <div className="photoTitle">{photo.title}</div>
+                                    <div className="imageContainer">
+                                        <img className="photo" src={resources.thumbnail}></img>
+                                    </div>
+                                    <div className="title photoTitle">{photo.title}</div>
                                 </div>
                             }
                             elementsUrl={
@@ -98,7 +128,7 @@ class App extends Component {
                                     }
                                 })
                             }
-                            onElementClick={() => {}}
+                            onElementClick={(photoId, photos) => this.openPopup(photoId, photos)}
                             key={currentScreen}></List>;
             default:
                 return null;
@@ -116,6 +146,7 @@ class App extends Component {
 
     render() {
         const currentScreen = this.state.currentScreen;
+        const popup = this.state.popup;
         return (
             <div className="app">
                 <div className="appHeader">
@@ -128,8 +159,13 @@ class App extends Component {
                     }
                 </div>
                 <div className="appMain">
+                    { this.getCurrentScreenHTML() }
                     {
-                        this.getCurrentScreenHTML()
+                        popup.show ?
+                        <Popup photos={popup.photos}
+                            currentPhotoId={popup.currentPhotoId}></Popup>
+                        :
+                        null
                     }
                 </div>
             </div>
