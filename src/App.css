@@ -40,8 +40,7 @@
 
 .albumCover,
 .photo {
-    max-width: 30vmin;
-    max-height: 30vmin;
+    max-width: 50vmin;
     border-radius: 0.5vmin;
 }
 
