@@ -50,9 +50,10 @@ class Popup extends Component {
                 <div className="popupWindow">
                     <div className="previousButton"
                         onClick={this.previousPhoto}></div>
-                    <div style={{
-                            backgroundImage: "url(" + currentPhotoSrc + ")"
-                        }} className="currentPhoto"></div>
+                    <div className="currentPhotoContainer">
+                        <img key={currentPhotoSrc} className="currentPhoto"
+                            src={currentPhotoSrc} alt="Slide"/>
+                    </div>
                     <div className="nextButton"
                         onClick={this.nextPhoto}></div>
                 </div>

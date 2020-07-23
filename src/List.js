@@ -11,11 +11,13 @@ class List extends Component {
             elementsUrl: props.elementsUrl,
             getElementResources: props.getElementResources,
             elements: undefined,
-            onElementClick: props.onElementClick
+            onElementClick: props.onElementClick,
+            abortController: new AbortController()
         };
 
         this.fetchData = this.fetchData.bind(this);
         this.setStateIfMounted = this.setStateIfMounted.bind(this);
+        this.fetchWithAbortController = this.fetchWithAbortController.bind(this);
     }
 
     componentDidMount() {
@@ -25,6 +27,7 @@ class List extends Component {
     }
 
     componentWillUnmount() {
+        this.state.abortController.abort();
         this.mounted = false;
     }
 
@@ -33,11 +36,17 @@ class List extends Component {
             this.setState(...args);
     }
 
+    fetchWithAbortController(url) {
+        return fetch(url, {
+            signal: this.state.abortController.signal
+        });
+    }
+
     fetchData() {
         console.log('fetchElements()');
         const elementsUrl = this.state.elementsUrl;
         const getElementAdditionalStyle = this.state.getElementAdditionalStyle;
-        fetch(elementsUrl)
+        this.fetchWithAbortController(elementsUrl)
             .then(response => response.json())
             .then(json => this.setStateIfMounted(state => {
                         const elementsDict = {};
@@ -50,7 +59,10 @@ class List extends Component {
                     },
                     this.fetchElementsResources
                 )
-            );
+            ).catch(error => {
+                if (error.name === 'AbortError') return;
+                throw error;
+            });
     }
 
     fetchElementsResources() {
@@ -66,7 +78,7 @@ class List extends Component {
                 const name = resourceData[0];
                 const url = resourceData[1].url;
                 const postProcessing = resourceData[1].postProcessing;
-                fetch(url)
+                this.fetchWithAbortController(url)
                     .then(response => response.json())
                     .then(postProcessing)
                     .then(resource => this.setStateIfMounted(state => {
@@ -74,7 +86,10 @@ class List extends Component {
                                 return {elements: state.elements}
                             }
                         )
-                    )
+                    ).catch(error => {
+                        if (error.name === 'AbortError') return;
+                        throw error;
+                    });
             })
         });
     }

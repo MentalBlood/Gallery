@@ -79,7 +79,8 @@ class App extends Component {
                                 (album, resources) =>
                                 <div className="albumInfo">
                                     <div className="albumCoverContainer">
-                                        <img className="albumCover" src={resources.cover}></img>
+                                        <img key={resources.cover} className="albumCover"
+                                            src={resources.cover} alt="Album cover"></img>
                                         <div className="amountOfPhoto">{resources.amountOfPhoto}</div>
                                     </div>
                                     <div className="title albumTitle">{album.title}</div>
@@ -112,7 +113,8 @@ class App extends Component {
                                 (photo, resources) =>
                                 <div className="photoInfo">
                                     <div className="imageContainer">
-                                        <img className="photo" src={resources.thumbnail}></img>
+                                        <img key={resources.thumbnail} className="photo"
+                                            src={resources.thumbnail} alt="Preview"></img>
                                     </div>
                                     <div className="title photoTitle">{photo.title}</div>
                                 </div>
@@ -153,7 +155,7 @@ class App extends Component {
             <div className="app">
                 <div className="appHeader">
                     {
-                        this.state.currentScreen === "authors" ?
+                        currentScreen === "authors" ?
                         null
                         :
                         <button className="backButton"
