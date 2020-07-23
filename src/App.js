@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import List from './List.js';
 import Popup from './Popup.js';
+import LoadingImage from './LoadingImage.js';
 
 class App extends Component {
     constructor(props) {
@@ -79,8 +80,9 @@ class App extends Component {
                                 (album, resources) =>
                                 <div className="albumInfo">
                                     <div className="albumCoverContainer">
-                                        <img key={resources.cover} className="albumCover"
-                                            src={resources.cover} alt="Album cover"></img>
+                                        <LoadingImage key={resources.cover} className="albumCover"
+                                            src={resources.cover} alt="Album cover">
+                                        </LoadingImage>
                                         <div className="amountOfPhoto">{resources.amountOfPhoto}</div>
                                     </div>
                                     <div className="title albumTitle">{album.title}</div>
@@ -113,8 +115,9 @@ class App extends Component {
                                 (photo, resources) =>
                                 <div className="photoInfo">
                                     <div className="imageContainer">
-                                        <img key={resources.thumbnail} className="photo"
-                                            src={resources.thumbnail} alt="Preview"></img>
+                                        <LoadingImage key={resources.thumbnail} className="photo"
+                                            src={resources.thumbnail} alt="Preview">
+                                        </LoadingImage>
                                     </div>
                                     <div className="title photoTitle">{photo.title}</div>
                                 </div>
