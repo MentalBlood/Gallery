@@ -62,10 +62,10 @@ class Popup extends Component {
         const currentPhotoSrc = photos[currentPhotoId].url;
         const closeFunction = this.state.closeFunction;
         return (
-            <div className="popup" onKeyDown={this.handleKeyPress} tabIndex={-1} ref={this.popupElement}>
+            <div className="popup">
                 <div className="popupOverlay"
                     onClick={closeFunction}></div>
-                <div className="popupWindow">
+                <div className="popupWindow" onKeyDown={this.handleKeyPress} tabIndex={-1} ref={this.popupElement}>
                     <div className="previousButton"
                         onClick={this.previousPhoto}></div>
                     <div className="currentPhotoContainer">
