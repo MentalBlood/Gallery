@@ -155,7 +155,7 @@ class App extends Component {
         const currentScreen = this.state.currentScreen;
         const popup = this.state.popup;
         return (
-            <div className="app">
+            <div className="app unselectable">
                 <div className="appHeader">
                     {
                         currentScreen === "authors" ?
