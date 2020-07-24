@@ -53,7 +53,6 @@ class List extends Component {
     }
 
     fetchData() {
-        console.log('fetchElements()');
         const elementsUrl = this.state.elementsUrl;
         const getElementAdditionalStyle = this.state.getElementAdditionalStyle;
         this.fetchWithAbortController(elementsUrl)
@@ -79,7 +78,6 @@ class List extends Component {
     }
 
     fetchElementsResources() {
-        console.log('fetchElementsResources()');
         const getElementResources = this.state.getElementResources;
         if (getElementResources === undefined)
             return;

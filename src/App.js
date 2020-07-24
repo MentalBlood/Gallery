@@ -26,7 +26,6 @@ class App extends Component {
     }
 
     openAuthor(authorId) {
-        console.log('authorId is', authorId);
         this.setState({
             currentScreen: 'albums',
             currentAuthorId: authorId
@@ -34,7 +33,6 @@ class App extends Component {
     }
 
     openAlbum(albumId) {
-        console.log('albumId is', albumId);
         this.setState({
             currentScreen: 'photos',
             currentAlbumId: albumId
