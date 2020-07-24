@@ -21,9 +21,9 @@ class LoadingImage extends Component {
                 {image}
                 {
                     {
-                        'loading': <img className={image.props.className} src={loadingAnimation}></img>,
+                        'loading': <img className={image.props.className} src={loadingAnimation} />,
                         'loaded': null,
-                        'error': <img className={image.props.className} src={errorImage}></img>
+                        'error': <img className={image.props.className} src={errorImage} />
                     }[step]
                 }
             </React.Fragment>

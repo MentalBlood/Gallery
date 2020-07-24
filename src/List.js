@@ -23,6 +23,13 @@ class List extends Component {
         this.fetchWithAbortController = this.fetchWithAbortController.bind(this);
     }
 
+    addClasses(baseClass, additionalClasses) {
+        return additionalClasses.length === 0 ?
+            baseClass
+            :
+            baseClass + " " + additionalClasses.join(" ");
+    }
+
     componentDidMount() {
         this.mounted = true;
         if (this.state.elementsList === undefined)
@@ -98,13 +105,6 @@ class List extends Component {
                     });
             })
         });
-    }
-
-    addClasses(baseClass, additionalClasses) {
-        return additionalClasses.length === 0 ?
-            baseClass
-            :
-            baseClass + " " + additionalClasses.join(" ");
     }
 
     render() {

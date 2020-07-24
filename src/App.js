@@ -164,6 +164,15 @@ class App extends Component {
                         <button className="backButton"
                             onClick={this.goBack}>Back</button>
                     }
+                    <div className="headerText">
+                        {
+                            {
+                                'authors': 'Authors',
+                                'albums': 'Albums',
+                                'photos': 'Photos'
+                            }[currentScreen]
+                        }
+                    </div>
                 </div>
                 <div className="appMain">
                     { this.getCurrentScreenHTML() }

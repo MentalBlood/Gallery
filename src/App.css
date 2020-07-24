@@ -1,5 +1,16 @@
+.app {
+    font-family: 'Noto Sans TC', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
 .appHeader {
+    display: flex;
+    justify-content: space-between;
     padding: 1.5vmin;
+}
+
+.headerText {
+    font-size: 5vmin;
 }
 
 .appHeader .backButton {
