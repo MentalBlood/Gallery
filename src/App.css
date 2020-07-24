@@ -44,14 +44,13 @@
 
 .imageContainer,
 .albumCoverContainer {
-    width: 100%;
     text-align: center;
     position: relative;
 }
 
 .albumCover,
 .photo {
-    max-width: 50vmin;
+    width: 20vmin;
     border-radius: 0.5vmin;
 }
 
