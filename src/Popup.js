@@ -57,7 +57,7 @@ class Popup extends Component {
         const currentPhotoSrc = photos[currentPhotoId].url;
         const closeFunction = this.state.closeFunction;
         return (
-            <div className="popup" onKeyDown={this.handleKeyPress} tabIndex={-1} autofocus>
+            <div className="popup" onKeyDown={this.handleKeyPress} tabIndex={-1}>
                 <div className="popupOverlay"
                     onClick={closeFunction}></div>
                 <div className="popupWindow">
