@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './List.css';
+import loadingAnimation from './images/loadingAnimation.gif';
+import errorImage from './images/error.svg';
 
 class List extends Component {
     constructor(props) {
@@ -12,7 +14,8 @@ class List extends Component {
             getElementResources: props.getElementResources,
             elements: undefined,
             onElementClick: props.onElementClick,
-            abortController: new AbortController()
+            abortController: new AbortController(),
+            step: 'loading'
         };
 
         this.fetchData = this.fetchData.bind(this);
@@ -47,7 +50,10 @@ class List extends Component {
         const elementsUrl = this.state.elementsUrl;
         const getElementAdditionalStyle = this.state.getElementAdditionalStyle;
         this.fetchWithAbortController(elementsUrl)
-            .then(response => response.json())
+            .then(response => {
+                this.setStateIfMounted({step: 'loaded'});
+                return response.json();}
+            )
             .then(json => this.setStateIfMounted(state => {
                         const elementsDict = {};
                         json.forEach(element => elementsDict[element.id] = {
@@ -106,30 +112,35 @@ class List extends Component {
         const onElementClick = this.state.onElementClick;
         const listClasses = this.state.listClasses;
         const elementClasses = this.state.elementClasses;
+        const step = this.state.step;
         return (
-            <div className={listClasses}>
-                {
-                    elements !== undefined
-                    ?
-                    Object.values(elements).map(
-                        (element, elementIndex) => 
-                            <div className="elementCell" key={elementIndex}>
-                                <div className={elementClasses} onClick={
-                                        event => {
-                                            const elementsWithoutResourcesDict = {};
-                                            Object.values(elements).forEach(
-                                                value => elementsWithoutResourcesDict[value.element.id] = value.element
-                                            );
-                                            onElementClick(element.element.id, elementsWithoutResourcesDict);
-                                        }
-                                    }>
-                                    {this.state.getElementInnerHTML(element.element, element.resources)}
+            {
+                'loading': <img className={listClasses} src={loadingAnimation} />,
+                'loaded': <div className={listClasses}>
+                    {
+                        elements !== undefined
+                        ?
+                        Object.values(elements).map(
+                            (element, elementIndex) => 
+                                <div className="elementCell" key={elementIndex}>
+                                    <div className={elementClasses} onClick={
+                                            event => {
+                                                const elementsWithoutResourcesDict = {};
+                                                Object.values(elements).forEach(
+                                                    value => elementsWithoutResourcesDict[value.element.id] = value.element
+                                                );
+                                                onElementClick(element.element.id, elementsWithoutResourcesDict);
+                                            }
+                                        }>
+                                        {this.state.getElementInnerHTML(element.element, element.resources)}
+                                    </div>
                                 </div>
-                            </div>
-                    )
-                    : null
-                }
-            </div>
+                        )
+                        : null
+                    }
+                </div>,
+                'error': <img className={listClasses} src={errorImage} />
+            }[step]
         );
     }
 }
