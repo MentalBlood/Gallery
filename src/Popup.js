@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './Popup.css';
+import LoadingImage from './LoadingImage.js';
 
 class Popup extends Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class Popup extends Component {
                     <div className="previousButton"
                         onClick={this.previousPhoto}></div>
                     <div className="currentPhotoContainer">
-                        <img key={currentPhotoSrc} className="currentPhoto"
+                        <LoadingImage key={currentPhotoSrc} className="currentPhoto"
                             src={currentPhotoSrc} alt="Slide"/>
                     </div>
                     <div className="nextButton"
