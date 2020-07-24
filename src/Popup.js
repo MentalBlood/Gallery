@@ -11,10 +11,11 @@ class Popup extends Component {
             closeFunction: props.closeFunction
         }
 
+        this.popupElement = React.createRef();
+
         this.previousPhoto = this.previousPhoto.bind(this);
         this.nextPhoto = this.nextPhoto.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.popupElement = React.createRef();
     }
 
     previousPhoto() {
@@ -51,13 +52,17 @@ class Popup extends Component {
             this.state.closeFunction();
     }
 
+    componentDidMount() {
+        this.popupElement.current.focus();
+    }
+
     render() {
         const currentPhotoId = this.state.currentPhotoId;
         const photos = this.state.photos;
         const currentPhotoSrc = photos[currentPhotoId].url;
         const closeFunction = this.state.closeFunction;
         return (
-            <div className="popup" onKeyDown={this.handleKeyPress} tabIndex={-1}>
+            <div className="popup" onKeyDown={this.handleKeyPress} tabIndex={-1} ref={this.popupElement}>
                 <div className="popupOverlay"
                     onClick={closeFunction}></div>
                 <div className="popupWindow">
