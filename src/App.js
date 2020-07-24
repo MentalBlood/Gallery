@@ -80,7 +80,7 @@ class App extends Component {
                                 (album, resources) =>
                                 <div className="albumInfo">
                                     <div className="albumCoverContainer">
-                                        <LoadingImage key={resources.cover} className="albumCover"
+                                        <LoadingImage className="albumCover"
                                             src={resources.cover} alt="Album cover">
                                         </LoadingImage>
                                         <div className="amountOfPhoto">{resources.amountOfPhoto}</div>
@@ -115,7 +115,7 @@ class App extends Component {
                                 (photo, resources) =>
                                 <div className="photoInfo">
                                     <div className="imageContainer">
-                                        <LoadingImage key={resources.thumbnail} className="photo"
+                                        <LoadingImage className="photo"
                                             src={resources.thumbnail} alt="Preview">
                                         </LoadingImage>
                                     </div>
