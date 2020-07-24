@@ -5,8 +5,12 @@
 
 .appHeader {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     padding: 1.5vmin;
+}
+
+.appHeader div:not(:first-child) {
+    margin-left: 5vmin;
 }
 
 .headerText {
